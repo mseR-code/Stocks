@@ -1,0 +1,308 @@
+rep <- obj$opMod$rep
+A
+nT
+tMP
+rep
+Mt          <- vector( mode="numeric", length=nT )
+Mt
+deltaM      <- rnorm( n=nT,mean=0,sd=1 )  # Random normal deviates.#
+  sigmaM      <- obj$opMod$sigmaM           # Natural mortality rate CV.#
+  gammaM      <- obj$opMod$gammaM           # Lag-1 autocorr in M#
+  ranM        <- .fillRanWalk( gamma=gammaM, sigma=sigmaM, deltat=deltaM )#
+  ranM        <- ranM/mean( ranM ) #
+  Mt[1]       <- obj$opMod$M                # Scale Mt[1] to equal input mean M.#
+  Mt[2:nT]    <- Mt[1] * ranM[ c(2:nT) ]#
+  # Trend M#
+  trendM     <- (log(obj$opMod$endM) - log(Mt[1]))/(nT-1)#
+#
+  Mt[2:nT]    <- Mt[1]*exp( trendM*c(2:nT) )*ranM[2:nT]#
+  # PulseM#
+  nPulse      <- obj$opMod$pulseM*as.integer(nT/10.)#
+  pulseYrs    <- sample( x=c(1:nT), size=nPulse, replace=F )  #
+  Mt[pulseYrs]<- Mt[pulseYrs]*1.5#
+  # Output#
+  obj$om$Mt <- Mt
+Mt
+deltat <- rnorm( n=nT,mean=0,sd=1 )
+gammaR <- obj$opMod$gammaR # lag-1 autocorrel.#
+  sigmaR <- obj$opMod$sigmaR # std error#
+  omegat <- .calcRdevs( gamma=gammaR,sigmaR,deltat )
+alphat      <- vector( mode="numeric", length=nT )
+alphat
+delta.alpha <- rnorm( n=nT,mean=0,sd=1 )  # Random normal deviates.#
+  sigma.alpha <- obj$opMod$sigma.alpha      # Walford intercept.#
+  gamma.alpha <- obj$opMod$gamma.alpha # Lag-1 autocorr#
+#
+  ran.alpha   <- .fillRanWalk( gamma=gamma.alpha, sigma=sigma.alpha, #
+                               deltat=delta.alpha )#
+  ran.alpha   <- ran.alpha/mean( ran.alpha ) #
+  alphat[1]   <- obj$opMod$alpha_g       # Scale alphat[1] to equal input mean.#
+  alphat[2:nT]<- alphat[1] * ran.alpha[ c(2:nT) ]#
+  # Trend in alphat#
+  trend.alpha     <- (log(obj$opMod$end.alpha) - log(alphat[1]))/(nT-1)#
+  alphat[2:nT]    <- alphat[1]*exp( trend.alpha*c(2:nT) )*ran.alpha[2:nT]#
+#
+  # Output#
+  obj$om$alphat <- alphat#
+  obj$om$rhot   <- obj$opMod$rho.int + obj$om$opMod$rho.slope*alphat
+obj$om$rhot
+obj$om$rho.int
+obj$om$rho.slope
+obj$om$alphat
+obj$opMod$rho.slope
+obj$opMod$rho.int
+obj$om$rhot   <- obj$opMod$rho.int + obj$om$opMod$rho.slope*alphat
+obj$om$rhot
+obj$opMod$rho.int + obj$om$opMod$rho.slope*alphat
+obj$opMod$rho.int
+obj$opMod$rho.slope*alphat
+obj$om$rhot   <- obj$opMod$rho.int + obj$opMod$rho.slope*alphat
+obj$om$qt <- rep(obj$opMod$qSurvey,times=nT)
+Q
+source("/Users/samuelj/Work/code/mseR/mseR-DCAC/mseRsimulationDCAC.r")
+runMSE()
+c
+ls()
+obj$om$Bt
+c
+c
+c
+c
+c
+c
+c
+c
+Q
+source("/Users/samuelj/Work/code/mseR/mseR-DCAC/mseRsimulationDCAC.r")
+runMSE()
+c
+c
+c
+guiView()
+guiSim()
+c
+c
+c
+source("/Users/samuelj/Work/code/mseR/mseR-DCAC/mseRsimulationDCAC.r")
+runMSE()
+Q
+source("/Users/samuelj/Work/code/mseR/mseR-DCAC/mseRsimulationDCAC.r")
+runMSE()
+guiView()
+guiSim()
+runMSE()
+guiView()
+lisread("ncodages.dat")
+list <- lisread("ncodages.dat")
+str(list)
+list$mtAge
+list$wtAge
+str(list)
+wtAges <- list $ wtAge
+dim(wtAges)
+list <- lisread("ncodages.dat")
+str(list)
+wtAge <- list $ wtAge
+wtAge
+wtAge <- t(wtAge)
+wtAge
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t")
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", header = F)
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", header = FALSE)
+write ( wtAge, "weightAgesSurvey.txt", sep = "\t", header = FALSE)
+write ( wtAge, "weightAgesSurvey.txt", sep = "\t")
+wtAge
+write.csv ( wtAge, "weightAgesSurvey.txt", sep = "\t")
+write.csv ( wtAge, "weightAgesSurvey.txt")
+?write
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", header = FALSE)
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t")
+?write.table
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", colnames = FALSE)
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", col.names = FALSE)
+write.table ( wtAge, "weightAgesSurvey.txt", sep = "\t", col.names = FALSE, row.names = FALSE)
+ncodages.dat
+list
+str(list)
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+walPars <- fitWalford(mat=sizeListS$Lt)
+walPars
+par( oma=c(3.5,4,1,1), mar=c(2,2,1,1), mfrow=c(2,1 ) )
+sizeListS <- makeSizeAge( fileName="weightAgeSurvey.txt", yrs=c(1959,2014) )
+plotMat(matYr=sizeListS$Yr, mat=sizeListS$Wt)
+legend(x=1970,y=6,legend="Survey",bty="n")
+walPars <- fitWalford(mat=sizeListS$Lt)
+sizeListS
+walPars <- fitWalford(mat=sizeListS$Lt, yrs=c(1959,2014))
+walPars
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+walPars
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+walPars
+str(sizeListS)
+sizeListS
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+walPars
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+walPars
+rep <- lisread("ncod.rep")
+rep
+walPars
+simHist <- data.frame ( omegat = rep $ recDevs[1:55],#
+                        Ft = rep $ Ftg [1:55],#
+                        Mt = rep $ Mt [1, 1:55 ],#
+                        alphat = c ( walPars [ 1:45,2], walPars [ 36:45, 2 ] ),#
+                        rhot = c ( walPars [ 1:54, 3], walPars [ 54,3 ] )
+simHist
+simHist <- data.frame ( omegat = rep $ recDevs[1:55],#
+                        Ft = rep $ Ftg [1:55],#
+                        Mt = rep $ Mt [1, 1:55 ],#
+                        alphat = c ( walPars [ 1:45,2], walPars [ 36:45, 2 ] ),#
+                        rhot = c ( walPars [ 1:54, 3], walPars [ 54,3 ] ) )
+simHist
+write.csv ( file = "simHistNCod.csv", x = simHist )
+source("mser.r")
+runMSE()
+guiView()
+guiSim()
+guiView()
+ages
+ages <- lisread("ncodages.dat")
+rep <- lisread("ncod.rep")
+catch <- lisread ( "ncodcatch.dat")
+idx <- lisread ("ncodindex.dat")
+str(ages)
+str(idx)
+str(catch)
+ls()
+str(rep)
+guiSim()
+source("mser.r")
+guiSim()
+assessCA <- lisread("assessCA.dat")
+ages
+str(ages)
+str(catch)
+catch$landCatchMatrix
+catch$landCatchMatrix[,3]
+cat ( catch$landCatchMatrix[,3], file = "catch.dat" )
+str(idx)
+idx$idxSeries2
+cat(idx$idxSeries2, file = "idx.dat" )
+str(ages)
+ages$series1
+cat( ages$series1[,1:55], file = "ages.dat", append = FALSE )
+cat ( "survey", file = "ages.dat", append = TRUE)
+cat( ages$series2[,1:55], file = "ages.dat", append = TRUE )
+class(ages$series1)
+?cat
+rep
+str(rep[])
+str(rep)
+str(ages)
+for ( k in 1:55 )#
+{#
+  cat ( ages$series1[, k], file = "ages.dat", append = TRUE )#
+}
+?cat
+fisheryAges <- ages$series1
+fAges <- t ( fisheryAges )
+source("/Users/samuelj/Work/code/mseR/Stocks/NCod/agePropsCat.R")
+source("/Users/samuelj/Work/code/mseR/Stocks/NCod/agePropsCat.R")
+source("/Users/samuelj/Work/code/mseR/Stocks/NCod/agePropsCat.R")
+source("/Users/samuelj/Work/code/mseR/mseR-NCod/assessCA.r")
+plotAll(result)
+rep
+str(rep)
+source("/Users/samuelj/Work/code/mseR/Stocks/NCod/agePropsCat.R")
+idx
+cat ( idx$idxSeroes2, file = idx.dat )
+cat ( idx$idxSeroes2, file = idx.dat )
+cat ( idx$idxSeroes2, file = "idx.dat" )
+rep <- lisread ( "ncod.rep" )
+simHist <- data.frame ( omegat = c( 0, rep $ recDevs ),#
+                        Ft = rep $ Ftg,#
+                        Mt = rep $ Mt,#
+                        alphat = c ( walPars [ 1:46,2], walPars [ 37:46, 2 ] ),#
+                        rhot = c ( walPars [ 1:54, 3], walPars [ 54:54,3 ] ) )
+omegat = c( 0, rep $ recDevs )
+omegat
+Ft = rep $ Ftg,
+Ft = rep $ Ftg
+Ft
+Mt = rep $ Mt
+Mt
+simHist <- data.frame ( omegat = c( 0, rep $ recDevs ),#
+                        Ft = rep $ Ftg,#
+                        Mt = rep $ Mt[1,],#
+                        alphat = c ( walPars [ 1:46,2], walPars [ 37:46, 2 ] ),#
+                        rhot = c ( walPars [ 1:54, 3], walPars [ 54:54,3 ] ) )
+alphat = c ( walPars [ 1:46,2], walPars [ 37:46, 2 ] )
+alphat
+rhot = c ( walPars [ 1:54, 3], walPars [ 54:54,3 ] )
+rhot
+simHist <- data.frame ( omegat = c( 0, rep $ recDevs ),#
+                        Ft = rep $ Ftg,#
+                        Mt = rep $ Mt[1,],#
+                        alphat = c ( walPars [ 1:46,2], walPars [ 37:46, 2 ] ),#
+                        rhot = c ( walPars [ 1:54, 3], walPars [ 53:54,3 ] ) )
+simHist
+write.csv ( file = "simHistNCod.csv", x = simHist )
+source("mser.r")
+mser/r
+guiSim()
+guiView()
+walPars
+guiSim()
+length(idx$series2
+)
+length(idx$Series2)
+idx
+length(idx$idxSeries2)
+ages
+ages$series1
+fisheryAges <- ages$series1
+fAges <- t ( fisheryAges )
+fAges
+cat ("fishery\n", file = "ages.dat", append = FALSE )
+write.table ( fAges, row.names = FALSE, col.names = FALSE, append = TRUE,#
+              file = "ages.dat" )
+sAges <- t ( ages$series2 )
+cat ("survey\n", file = "ages.dat", append = TRUE )
+write.table ( sAges, row.names = FALSE, col.names = FALSE, append = TRUE,#
+              file = "ages.dat" )
+source('~/Work/code/mseR/mseR-NCod/assessCA.r', chdir = TRUE)
+plotAll(result)
+runMSE()
+runMSE()
+guiView()
+guiBatch()
+guiPerf()
+rep
+str(rep)
+rep$Nta
+Nt <- apply ( X = rep$Nta, MARGIN = 1, FUN = sum )
+Nt
+rep$Nta / Nt
+str(rep)
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+source("/Users/samuelj/Work/code/mseR/Stocks/plotWt.r")
+rep
+str(rep)
+rep$Bta
+sum ( rep$Bta[1,])
+rep$SSBt
+ahes
+ages
+str(ages)
+rep$SSBt
+str(rep)
+B <- rep$Bt
+B
+sum ( B [ , 1])
+sum ( B [ 1, ])
